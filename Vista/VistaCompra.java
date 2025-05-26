@@ -6,11 +6,11 @@ package Vista;
 
 import Controlador.CompraControlador;
 import Entidades.Compra;
-import Entidades.DetalleCompra;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import javax.swing.JOptionPane;
+import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -24,6 +24,8 @@ public class VistaCompra extends javax.swing.JPanel {
     public VistaCompra() {
         initComponents();
         this.compraControlador = new CompraControlador();
+        selectorfechaContratacion.setDate(new Date());
+        ((JTextField) selectorfechaContratacion.getDateEditor().getUiComponent()).setEditable(false);
         cargarDatosTabla();
     }
 
@@ -37,11 +39,19 @@ public class VistaCompra extends javax.swing.JPanel {
                 Object[] row = {
                     comp.getId_compra(),
                     comp.getId_Proveedor(),
-                    comp.getFe_compra()
+                    comp.getFe_compra(),
+                    comp.getTotalCompra()
                 };
                 model.addRow(row);
             }
         }
+    }
+
+    private void limpiar() {
+        texttotalcompra.setText("");
+        selectorfechaContratacion.setDate(new Date());
+        btnEliminar.setEnabled(true);
+        btnGuardar.setEnabled(true);
     }
 
     /**
@@ -56,69 +66,76 @@ public class VistaCompra extends javax.swing.JPanel {
         jPanel1 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        textid_Proveedor = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
         tablaCompra = new javax.swing.JTable();
         btnGuardar = new javax.swing.JButton();
         btnEliminar = new javax.swing.JButton();
         btnActualizar = new javax.swing.JButton();
         textBuscar = new javax.swing.JTextField();
-        textFecha_compra = new com.toedter.calendar.JDateChooser();
+        selectorfechaContratacion = new com.toedter.calendar.JDateChooser();
+        ComboProveedor = new javax.swing.JComboBox<>();
+        jLabel1 = new javax.swing.JLabel();
+        texttotalcompra = new javax.swing.JTextField();
+        btnLimpiar = new javax.swing.JButton();
+        jLabel4 = new javax.swing.JLabel();
 
         jPanel1.setBackground(new java.awt.Color(255, 204, 204));
+        jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel2.setText("ID Proveedor");
+        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 10, -1, -1));
 
         jLabel3.setBackground(new java.awt.Color(0, 0, 0));
         jLabel3.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel3.setText("Fecha Compra");
+        jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(236, 12, -1, -1));
 
         tablaCompra.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null}
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
             },
             new String [] {
-                "ID Compra", "ID Proveedor", "Fecha compra"
+                "ID Compra", "ID Proveedor", "Fecha compra", "Totalcompra"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.Integer.class, java.lang.Object.class
+                java.lang.Integer.class, java.lang.Integer.class, java.lang.Object.class, java.lang.Float.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false
+                false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -136,6 +153,8 @@ public class VistaCompra extends javax.swing.JPanel {
         });
         jScrollPane1.setViewportView(tablaCompra);
 
+        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 167, 554, 250));
+
         btnGuardar.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btnGuardar.setText("Guardar");
         btnGuardar.addActionListener(new java.awt.event.ActionListener() {
@@ -143,6 +162,7 @@ public class VistaCompra extends javax.swing.JPanel {
                 accionBotonGuardar(evt);
             }
         });
+        jPanel1.add(btnGuardar, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 110, 125, 31));
 
         btnEliminar.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btnEliminar.setText("Eliminar");
@@ -151,6 +171,7 @@ public class VistaCompra extends javax.swing.JPanel {
                 accionBotonEliminar(evt);
             }
         });
+        jPanel1.add(btnEliminar, new org.netbeans.lib.awtextra.AbsoluteConstraints(580, 180, 125, 32));
 
         btnActualizar.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btnActualizar.setText("Actualizar");
@@ -159,67 +180,39 @@ public class VistaCompra extends javax.swing.JPanel {
                 accionBotonActualizar(evt);
             }
         });
+        jPanel1.add(btnActualizar, new org.netbeans.lib.awtextra.AbsoluteConstraints(580, 110, 125, 32));
 
         textBuscar.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 campotextBuscarKeyTyped(evt);
             }
         });
+        jPanel1.add(textBuscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 110, 315, 31));
 
-        textFecha_compra.setDateFormatString("yyyy-MM-dd");
+        selectorfechaContratacion.setDateFormatString("yyyy-MM-dd");
+        jPanel1.add(selectorfechaContratacion, new org.netbeans.lib.awtextra.AbsoluteConstraints(204, 41, 160, 31));
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(48, 48, 48)
-                        .addComponent(jLabel2)
-                        .addGap(93, 93, 93)
-                        .addComponent(jLabel3))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(23, 23, 23)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 634, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(textid_Proveedor, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(btnGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(28, 28, 28)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addComponent(btnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(56, 56, 56)
-                                        .addComponent(btnActualizar, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addComponent(textFecha_compra, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(29, 29, 29)
-                                        .addComponent(textBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 315, javax.swing.GroupLayout.PREFERRED_SIZE)))))))
-                .addContainerGap(45, Short.MAX_VALUE))
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(12, 12, 12)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
-                    .addComponent(jLabel3))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(textid_Proveedor, javax.swing.GroupLayout.DEFAULT_SIZE, 37, Short.MAX_VALUE)
-                    .addComponent(textFecha_compra, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(textBuscar))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnActualizar, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(36, 36, 36)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 233, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(30, 30, 30))
-        );
+        ComboProveedor.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20" }));
+        jPanel1.add(ComboProveedor, new org.netbeans.lib.awtextra.AbsoluteConstraints(23, 41, 110, 31));
+
+        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel1.setText("TotalCompra");
+        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(435, 12, -1, -1));
+        jPanel1.add(texttotalcompra, new org.netbeans.lib.awtextra.AbsoluteConstraints(403, 41, 160, 31));
+
+        btnLimpiar.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        btnLimpiar.setText("Limpiar");
+        btnLimpiar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                accionBotonLimpiar(evt);
+            }
+        });
+        jPanel1.add(btnLimpiar, new org.netbeans.lib.awtextra.AbsoluteConstraints(580, 240, 125, 31));
+
+        jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagen/291474364_116090381133197_1246855093686710006_n (1).jpg"))); // NOI18N
+        jLabel4.setText("jLabel4");
+        jLabel4.setPreferredSize(new java.awt.Dimension(788, 430));
+        jPanel1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(-150, 0, 980, 520));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -234,20 +227,24 @@ public class VistaCompra extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void accionBotonActualizar(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_accionBotonActualizar
-        String proveedorStr = textid_Proveedor.getText();
-        Date fecha = textFecha_compra.getDate();
+        String proveedorStr = (String) ComboProveedor.getSelectedItem();
+        String totalCompraStr = texttotalcompra.getText().trim();
+        Date fechaContratacion = this.selectorfechaContratacion.getDate();
+        java.sql.Date fecha = new java.sql.Date(fechaContratacion.getTime());
 
-        if (id_compraSeleccionada != null && !proveedorStr.isEmpty() && fecha != null) {
+        if (id_compraSeleccionada != null && !proveedorStr.isEmpty() && !totalCompraStr.isEmpty()) {
             int idProveedor = Integer.parseInt(proveedorStr);
-            compraControlador.actualizarCompra(id_compraSeleccionada, idProveedor, fecha);
-            cargarDatosTabla();
-            textid_Proveedor.setText("");
-            textFecha_compra.setDate(null);
-            id_compraSeleccionada = null;
-            btnEliminar.setEnabled(true);
-            btnGuardar.setEnabled(true);
+            float totalCompra = Float.parseFloat(totalCompraStr);
+
+            try {
+                compraControlador.actualizarCompra(id_compraSeleccionada, idProveedor, fecha, totalCompra);
+                cargarDatosTabla();
+                cargarDatosTabla();
+                limpiar();
+            } catch (Exception e) {
+                javax.swing.JOptionPane.showMessageDialog(this, "Error: " + e.getMessage(), "Error", javax.swing.JOptionPane.ERROR_MESSAGE);
+            }
         } else {
-            JOptionPane.showMessageDialog(this, "Por favor, llene los campos.", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_accionBotonActualizar
 
@@ -263,18 +260,32 @@ public class VistaCompra extends javax.swing.JPanel {
     }//GEN-LAST:event_accionBotonEliminar
 
     private void accionBotonGuardar(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_accionBotonGuardar
-        String proveedorStr = textid_Proveedor.getText();
-        Date fecha = textFecha_compra.getDate();
+        try {
+            String proveedorStr = (String) ComboProveedor.getSelectedItem();
+            String totalCompraStr = texttotalcompra.getText().trim();
+            Date fechaContratacion = this.selectorfechaContratacion.getDate();
+            java.sql.Date fecha = new java.sql.Date(fechaContratacion.getTime());
 
-        if (!proveedorStr.isEmpty() && fecha != null) {
-            int idProveedor = Integer.parseInt(proveedorStr);
-            compraControlador.crearCompra(idProveedor, fecha);
+            if (proveedorStr == null || totalCompraStr.isEmpty() || fechaContratacion == null) {
+                JOptionPane.showMessageDialog(this, "Llene todos los campos requeridos.", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            int idEmpleado = Integer.parseInt(proveedorStr);
+            float totalCompra = Float.parseFloat(totalCompraStr);
+            java.sql.Date sqlFecha = new java.sql.Date(fecha.getTime());
+
+            compraControlador.crearCompra(idEmpleado, sqlFecha, totalCompra);
+            limpiar();
             cargarDatosTabla();
-            textid_Proveedor.setText("");
-            textFecha_compra.setDate(null);
-        } else {
-            JOptionPane.showMessageDialog(this, "Por favor, llene los campos.", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Compra guardada exitosamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "Formato inválido en los campos numéricos.", "Error", JOptionPane.ERROR_MESSAGE);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Error: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
+
+
     }//GEN-LAST:event_accionBotonGuardar
 
     private void tablaCompraMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaCompraMouseClicked
@@ -282,11 +293,13 @@ public class VistaCompra extends javax.swing.JPanel {
             int filaSeleccionada = tablaCompra.getSelectedRow();
             if (filaSeleccionada != -1) {
                 id_compraSeleccionada = (Integer) tablaCompra.getValueAt(filaSeleccionada, 0);
-                int idProveedor = (Integer) tablaCompra.getValueAt(filaSeleccionada, 1);
-                Date fecha = (Date) tablaCompra.getValueAt(filaSeleccionada, 2);
+                Integer idProveedor = (Integer) tablaCompra.getValueAt(filaSeleccionada, 1);
+                Date fechaContratacion = (Date) tablaCompra.getValueAt(filaSeleccionada, 2);
+                Float totalCompra = (Float) tablaCompra.getValueAt(filaSeleccionada, 3);
 
-                textid_Proveedor.setText(String.valueOf(idProveedor));
-                textFecha_compra.setDate(fecha);
+                ComboProveedor.setSelectedItem(idProveedor.toString());
+                selectorfechaContratacion.setDate(fechaContratacion);
+                texttotalcompra.setText(totalCompra.toString());
 
                 btnEliminar.setEnabled(false);
                 btnGuardar.setEnabled(false);
@@ -296,44 +309,55 @@ public class VistaCompra extends javax.swing.JPanel {
     }//GEN-LAST:event_tablaCompraMouseClicked
 
     private void campotextBuscarKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_campotextBuscarKeyTyped
-       String textoBusqueda = textBuscar.getText().trim().toLowerCase();
-List<Compra> compras = compraControlador.obtenerTodasCompras();
+        String textoBusqueda = textBuscar.getText().trim().toLowerCase();
+        List<Compra> compras = compraControlador.obtenerTodasCompras();
+        DefaultTableModel modelo = (DefaultTableModel) tablaCompra.getModel();
+        modelo.setRowCount(0);
 
-DefaultTableModel modelo = (DefaultTableModel) tablaCompra.getModel();
-modelo.setRowCount(0);
+        if (compras != null) {
+            for (Compra comp : compras) {
+                String idCompraStr = String.valueOf(comp.getId_compra()).toLowerCase();
+                String idProveedorStr = String.valueOf(comp.getId_Proveedor()).toLowerCase();
+                String totalCompraStr = String.valueOf(comp.getTotalCompra());
+                String fechaCompraStr = new SimpleDateFormat("yyyy-mm-dd").format(comp.getFe_compra()).toLowerCase();
 
-if (compras != null && !compras.isEmpty()) {
-    for (Compra comp : compras) {
-        String idCompraStr = String.valueOf(comp.getId_compra());
-        String idProveedorStr = String.valueOf(comp.getId_Proveedor());
-        String fechaCompraStr = new SimpleDateFormat("yyyy-MM-dd").format(comp.getFe_compra()).toLowerCase();
+                if (textoBusqueda.isEmpty()
+                        || idCompraStr.contains(textoBusqueda)
+                        || idProveedorStr.contains(textoBusqueda)
+                        || totalCompraStr.contains(textoBusqueda)
+                        || fechaCompraStr.contains(textoBusqueda)) {
+                    modelo.addRow(new Object[]{
+                        comp.getId_compra(),
+                        comp.getId_Proveedor(),
+                        comp.getFe_compra(),
+                        comp.getTotalCompra()
 
-        if (textoBusqueda.isEmpty()
-                || idCompraStr.contains(textoBusqueda)
-                || idProveedorStr.contains(textoBusqueda)
-                || fechaCompraStr.contains(textoBusqueda)) {
-            modelo.addRow(new Object[]{
-                comp.getId_compra(),
-                comp.getId_Proveedor(),
-                comp.getFe_compra()
-            });
+                    });
+                }
+            }
         }
-    }
-    }
     }//GEN-LAST:event_campotextBuscarKeyTyped
+
+    private void accionBotonLimpiar(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_accionBotonLimpiar
+        limpiar();
+    }//GEN-LAST:event_accionBotonLimpiar
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JComboBox<String> ComboProveedor;
     private javax.swing.JButton btnActualizar;
     private javax.swing.JButton btnEliminar;
     private javax.swing.JButton btnGuardar;
+    private javax.swing.JButton btnLimpiar;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
+    private com.toedter.calendar.JDateChooser selectorfechaContratacion;
     private javax.swing.JTable tablaCompra;
     private javax.swing.JTextField textBuscar;
-    private com.toedter.calendar.JDateChooser textFecha_compra;
-    private javax.swing.JTextField textid_Proveedor;
+    private javax.swing.JTextField texttotalcompra;
     // End of variables declaration//GEN-END:variables
 }

@@ -1,31 +1,36 @@
 
 package Entidades;
 
+
 import java.util.Date;
 
 /**
+ * Clase que representa un producto.
  *
- * @author Azter Baez
+ * @author XX3
  */
 public class Producto {
-    
-  private  int id_producto;
-  private String Nombre_produ;
-  private  String tipo_produ;  
-  private int Existencia_Prod;
-  private float Precio_produ;
-  private Date Fe_caducidad;
+
+
+    private int id_producto;
+    private String nombre_prod;
+    private String tipo_produ;
+    private double Existencia_Prod;
+    private double precio_Costo;
+    private double precio_Venta;
+    private Date fecha_caducidad;
 
     public Producto() {
     }
 
-    public Producto(int id_producto, String Nombre_produ, String tipo_produ, int Existencia_Prod, float Precio_produ, Date Fe_caducidad) {
+    public Producto(int id_producto, String nombre_prod, String tipo_produ, double Existencia_Prod, double precio_Costo, double precio_Venta, Date fecha_caducidad) {
         this.id_producto = id_producto;
-        this.Nombre_produ = Nombre_produ;
+        this.nombre_prod = nombre_prod;
         this.tipo_produ = tipo_produ;
         this.Existencia_Prod = Existencia_Prod;
-        this.Precio_produ = Precio_produ;
-        this.Fe_caducidad = Fe_caducidad;
+        this.precio_Costo = precio_Costo;
+        this.precio_Venta = precio_Venta;
+        this.fecha_caducidad = fecha_caducidad;
     }
 
     public int getId_producto() {
@@ -36,12 +41,12 @@ public class Producto {
         this.id_producto = id_producto;
     }
 
-    public String getNombre_produ() {
-        return Nombre_produ;
+    public String getNombre_prod() {
+        return nombre_prod;
     }
 
-    public void setNombre_produ(String Nombre_produ) {
-        this.Nombre_produ = Nombre_produ;
+    public void setNombre_prod(String nombre_prod) {
+        this.nombre_prod = nombre_prod;
     }
 
     public String getTipo_produ() {
@@ -52,28 +57,40 @@ public class Producto {
         this.tipo_produ = tipo_produ;
     }
 
-    public int getExistencia_Prod() {
+    public double getExistencia_Prod() {
         return Existencia_Prod;
     }
 
-    public void setExistencia_Prod(int Existencia_Prod) {
+    public void setExistencia_Prod(double Existencia_Prod) {
         this.Existencia_Prod = Existencia_Prod;
     }
 
-    public float getPrecio_produ() {
-        return Precio_produ;
+    public double getPrecio_Costo() {
+        return precio_Costo;
     }
 
-    public void setPrecio_produ(float Precio_produ) {
-        this.Precio_produ = Precio_produ;
+    public void setPrecio_Costo(double precio_Costo) {
+        this.precio_Costo = precio_Costo;
     }
 
-    public Date getFe_caducidad() {
-        return Fe_caducidad;
+    public double getPrecio_Venta() {
+        return precio_Venta;
     }
 
-    public void setFe_caducidad(Date Fe_caducidad) {
-        this.Fe_caducidad = Fe_caducidad;
+    public void setPrecio_Venta(double precio_Venta) {
+        this.precio_Venta = precio_Venta;
     }
 
-}
+    public Date getFecha_caducidad() {
+        return fecha_caducidad;
+    }
+
+    public void setFecha_caducidad(Date fecha_caducidad) {
+        this.fecha_caducidad = fecha_caducidad;
+    }
+
+
+
+   }
+
+

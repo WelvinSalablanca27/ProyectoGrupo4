@@ -1,8 +1,7 @@
-
 package Controlador;
 
 import DAO.DAOCompra;
-import DAO.DAODetalleCompra;
+
 import Entidades.Compra;
 import Entidades.DetalleCompra;
 import java.sql.SQLException;
@@ -16,36 +15,32 @@ import javax.swing.JOptionPane;
  * @author welvi
  */
 public class CompraControlador {
-    
+
     private final DAOCompra DAOcompra;
 
     public CompraControlador() {
         this.DAOcompra = new DAOCompra();
-       
+
     }
 
     // Método para crear una nueva compra con sus detalles
-    public void crearCompra(int id_Proveedor, Date Fe_compra) {
+    public void crearCompra(int id_Proveedor, Date Fe_compra, float totalCompra) {
         try {
             Compra compra = new Compra();
             compra.setId_Proveedor(id_Proveedor);
             compra.setFe_compra(Fe_compra);
+            compra.setTotalCompra(totalCompra);
             int id_compra = DAOcompra.crearCompra(compra);
 
             if (id_compra == -1) {
                 throw new SQLException("No se pudo obtener el ID de la compra.");
             }
 
-            
-              
-            
-
-            
             JOptionPane.showMessageDialog(null, "Compra y detalles creados exitosamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "Error al crear la compra: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
-     }
+    }
 
     // Método para obtener todas las compras
     public List<Compra> obtenerTodasCompras() {
@@ -58,12 +53,13 @@ public class CompraControlador {
     }
 
     // Método para actualizar una compra existente
-    public void actualizarCompra(int id_compra,int id_Proveedor, Date Fe_compra) {
+    public void actualizarCompra(int id_compra, int id_Proveedor, Date Fe_compra, float totalCompra) {
         try {
             Compra compra = new Compra();
             compra.setId_compra(id_compra);
             compra.setId_Proveedor(id_Proveedor);
             compra.setFe_compra(Fe_compra);
+            compra.setTotalCompra(totalCompra);
             DAOcompra.actualizarCompra(compra);
             JOptionPane.showMessageDialog(null, "Compra actualizada exitosamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
         } catch (SQLException e) {
@@ -86,18 +82,17 @@ public class CompraControlador {
         CompraControlador controlador = new CompraControlador();
 
         // Crear una lista de detalles de compra
-       List<DetalleCompra> detalles = new ArrayList<>();
-       DetalleCompra detalle = new DetalleCompra();
+        List<DetalleCompra> detalles = new ArrayList<>();
+        DetalleCompra detalle = new DetalleCompra();
         detalle.setId_DetalleCompra(3); // ID existente
         detalle.setId_compra(1);
         detalle.setFe_Ingresado(new java.util.Date());
         detalle.setFe_caducidad(new java.util.Date());
         detalle.setValor_Compra(80);
         detalles.add(detalle);
-        
+
         // Crear una compra con detalles
-      controlador.crearCompra(0, new Date());
-   
+        controlador.crearCompra(0, new Date(), 0);
 
         // Leer todas las compras
         List<Compra> compras = controlador.obtenerTodasCompras();
@@ -105,18 +100,16 @@ public class CompraControlador {
             System.out.println("Lista de compras:");
             for (Compra comp : compras) {
                 System.out.println("ID: " + comp.getId_compra()
-                               + ", Proveedor ID: " + comp.getId_Proveedor()
-                               + ", Fe_compra: " + comp.getFe_compra());
+                        + ", Proveedor ID: " + comp.getId_Proveedor()
+                        + ", Fe_compra: " + comp.getFe_compra()
+                        + ", Total: " + comp.getTotalCompra());
             }
         }
 
         // Actualizar una compra (suponiendo que ID 1 existe)
-  controlador.crearCompra(2, new Date());
+        controlador.actualizarCompra(0, 0, new Date(), 0);
 
         // Eliminar una compra
         controlador.eliminarCompra(1);
     }
 }
-
-
-

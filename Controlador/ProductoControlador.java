@@ -1,15 +1,17 @@
 
-
 package Controlador;
 
 import DAO.DAOProducto;
 import Entidades.Producto;
 import java.sql.SQLException;
-import java.util.Date;
 import java.util.List;
+import java.util.Date;
+import java.text.SimpleDateFormat;
+import java.text.ParseException;
 import javax.swing.JOptionPane;
 
 /**
+ * Controlador para gestionar productos.
  *
  * @author XX3
  */
@@ -19,25 +21,34 @@ public class ProductoControlador {
     public ProductoControlador() {
         this.DAOproducto = new DAOProducto();
     }
-    
-    // Método para crear un nuevo producto
-    public void crearProducto(String nombre_produ, String tipo_produ, int Existencia_Prod,
-            float precio_produ, Date Fe_caducidad) {
+
+    public static Date convertirFecha(String fecha) {
+        try {
+            SimpleDateFormat formatoFecha = new SimpleDateFormat("yyyy-MM-dd");
+            return formatoFecha.parse(fecha);
+        } catch (ParseException e) {
+            System.err.println("❌ Error al convertir la fecha: " + fecha);
+            return null;
+        }
+    }
+// Método para crear un nuevo producto
+    public void crearProducto(String Nombre_prod, String tipo_produ, double Existencia_Prod,
+                                double precio_costo, double precio_venta, Date fecha_caducidad) {
         try {
             Producto producto = new Producto();
-            producto.setNombre_produ(nombre_produ);
+            producto.setNombre_prod(Nombre_prod);
             producto.setTipo_produ(tipo_produ);
             producto.setExistencia_Prod(Existencia_Prod);
-            producto.setPrecio_produ(precio_produ);
-            producto.setFe_caducidad(new java.util.Date());
+            producto.setPrecio_Costo(precio_costo);
+            producto.setPrecio_Venta(precio_venta);
+            producto.setFecha_caducidad(fecha_caducidad);
             DAOproducto.crearProducto(producto);
             JOptionPane.showMessageDialog(null, "Producto creado exitosamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "Error al crear el producto: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
-    
-    // Método para obtener todos los productos
+     // Método para obtener todos los productos
     public List<Producto> obtenerTodosProductos() {
         try {
             return DAOproducto.leerTodosProductos();
@@ -46,60 +57,63 @@ public class ProductoControlador {
             return null;
         }
     }
-    
     // Método para actualizar un producto existente
-    public void actualizarProducto(int id_producto, String nombre_produ, String tipo_produ, int Existencia_Prod,
-            float precio_produ,Date Fe_caducidad) {
+    public void actualizarProducto(int id_producto, String Nombre_prod, String tipo_produ, double Existencia_Prod,
+                                     double precio_costo, double precio_venta, Date fecha_caducidad) {
         try {
             Producto producto = new Producto();
             producto.setId_producto(id_producto);
-            producto.setNombre_produ(nombre_produ);
+            producto.setNombre_prod(Nombre_prod);
             producto.setTipo_produ(tipo_produ);
             producto.setExistencia_Prod(Existencia_Prod);
-            producto.setPrecio_produ(precio_produ);
-            producto.setFe_caducidad(new java.util.Date());
+            producto.setPrecio_Costo(precio_costo);
+            producto.setPrecio_Venta(precio_venta);
+            producto.setFecha_caducidad(fecha_caducidad);
             DAOproducto.actualizarProducto(producto);
             JOptionPane.showMessageDialog(null, "Producto actualizado exitosamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "Error al actualizar el producto: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
-    
+
     // Método para eliminar un producto
-    public void eliminarProducto(int id_producto) {
+    public void eliminarProducto(int idProducto) {
         try {
-            DAOproducto.eliminarProducto(id_producto);
+            DAOproducto.eliminarProducto(idProducto);
             JOptionPane.showMessageDialog(null, "Producto eliminado exitosamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "Error al eliminar el producto: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
-    
-    // Método main para pruebas
     public static void main(String[] args) {
         ProductoControlador controlador = new ProductoControlador();
 
-        // Crear un producto
-        controlador.crearProducto("Collar Azul", "Absesorio", 30, 61, new Date());
+        try {
+            Date fechaCaducidad = convertirFecha("01-10-2025");
+            Producto nuevoProducto = new Producto(1, "Collar Azul", "Accesorio", 30, 61, 65, fechaCaducidad);
+            controlador.DAOproducto.crearProducto(nuevoProducto);
 
-        // Leer todos los productos
-        List<Producto> productos = controlador.obtenerTodosProductos();
-        if (productos != null) {
-            System.out.println("Lista de productos:");
-            for (Producto p : productos) {
-                System.out.println("id_producto: " + p.getId_producto()
-                        + ", Nombre_Prod: " + p.getNombre_produ()
-                        + ", Tipo_Prod: " + p.getTipo_produ()
-                        + ", Existencia_Prod: " + p.getExistencia_Prod()
-                        + ", Precio_Prod: " + p.getPrecio_produ()
-                        + ", Fe_caducidad: " + p.getFe_caducidad());
-            }
+            List<Producto> producto = controlador.DAOproducto.leerTodosProductos();
+            producto.forEach(p -> System.out.println("Producto: " + p.getNombre_prod()));
+
+            controlador.DAOproducto.eliminarProducto(1);
+        } catch (SQLException e) {
+            System.err.println("❌ Error en ejecución: " + e.getMessage());
         }
-
-        // Actualizar un producto (suponiendo que ID 1 existe)
-        controlador.actualizarProducto(1, "Collar Verde", "Absesorio", 21, 61,  new Date()); 
-
-        // Eliminar un producto
-        controlador.eliminarProducto(2);
+         // Leer todos los productos
+       List<Producto> producto = controlador.obtenerTodosProductos();
+            if (producto != null) {
+                System.out.println("Lista de productos:");
+                for (Producto p : producto) {
+                    System.out.println("id_producto: " + p.getId_producto()
+                            + ", Nombre_Prod: " + p.getNombre_prod()
+                            + ", Tipo_Prod: " + p.getTipo_produ()
+                            + ", Existencia_Prod: " + p.getExistencia_Prod()
+                            + ", Precio_Costo: " + p.getPrecio_Costo()
+                            + ", Precio_Venta: " + p.getPrecio_Venta()
+                            + ", Fecha_Caducidad: " + p.getFecha_caducidad());
+                }
+            }
+            
+        }
     }
-}
