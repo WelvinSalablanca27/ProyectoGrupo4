@@ -1,7 +1,7 @@
 package Controlador;
 
 import DAO.DAOCompra;
-
+import DAO.DAODetalleCompra;
 import Entidades.Compra;
 import Entidades.DetalleCompra;
 import java.sql.SQLException;
@@ -17,14 +17,16 @@ import javax.swing.JOptionPane;
 public class CompraControlador {
 
     private final DAOCompra DAOcompra;
+    private final DAODetalleCompra detalleCompraDAO;
 
     public CompraControlador() {
         this.DAOcompra = new DAOCompra();
+        this.detalleCompraDAO = new DAODetalleCompra();
 
     }
 
     // Método para crear una nueva compra con sus detalles
-    public void crearCompra(int id_Proveedor, Date Fe_compra, float totalCompra) {
+    public void crearCompra(int id_Proveedor, Date Fe_compra, float totalCompra, List<DetalleCompra> detalles) {
         try {
             Compra compra = new Compra();
             compra.setId_Proveedor(id_Proveedor);
@@ -35,7 +37,11 @@ public class CompraControlador {
             if (id_compra == -1) {
                 throw new SQLException("No se pudo obtener el ID de la compra.");
             }
-
+// Asignar el id_compra a cada detalle y guardarlos
+            for (DetalleCompra detalle : detalles) {
+                detalle.setId_compra(id_compra);
+                detalleCompraDAO.crearDetalleCompra(detalle);
+            }
             JOptionPane.showMessageDialog(null, "Compra y detalles creados exitosamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "Error al crear la compra: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
@@ -88,11 +94,11 @@ public class CompraControlador {
         detalle.setId_compra(1);
         detalle.setFe_Ingresado(new java.util.Date());
         detalle.setFe_caducidad(new java.util.Date());
-        detalle.setValor_Compra(80);
+        detalle.setPrecio(80);
         detalles.add(detalle);
 
         // Crear una compra con detalles
-        controlador.crearCompra(0, new Date(), 0);
+        controlador.crearCompra(0, new Date(), 0, detalles);
 
         // Leer todas las compras
         List<Compra> compras = controlador.obtenerTodasCompras();

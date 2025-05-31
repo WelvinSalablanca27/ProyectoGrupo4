@@ -44,6 +44,7 @@ String sql = """
            stmt.executeUpdate();
        }
     }
+
  public List<Cliente> leerTodosClientes() throws SQLException {
         String sql = "SELECT * FROM Cliente";
         List<Cliente> clientes = new ArrayList<>();
@@ -65,9 +66,33 @@ String sql = """
         }
         return clientes;
     }
+ 
+ public Cliente obtenerClientePorId(int id_Cliente) throws SQLException {
+    String sql = "SELECT * FROM Clientes WHERE id_cliente = ?";
+    Cliente cliente = null;
+     try (Connection c = ConexionBD.getConnection(); PreparedStatement stmt = c.prepareStatement(sql)) {
+        stmt.setInt(1, id_Cliente);
+        try (ResultSet rs = stmt.executeQuery()) {
+            if (rs.next()) {
+                cliente = new Cliente();
+                cliente.setId_Cliente(rs.getInt("id_cliente"));
+                cliente.setNombre1(rs.getString("Nombre1"));
+                cliente.setNombre2(rs.getString("Nombre2"));
+                cliente.setApellido1(rs.getString("Apellido1"));
+                cliente.setApellido2(rs.getString("Apellido2"));
+                cliente.setDireccion(rs.getString("Direccion"));
+                cliente.setTelefono(rs.getString("Telefono"));
+            }
+        }
+    }
+
+    return cliente;
+}
+ 
 
 public void actualizarCliente(Cliente cliente) throws SQLException {
     String sql = "UPDATE Cliente SET Nombre1 = ?, Nombre2 = ?, Apellido1 = ?, Apellido2 = ?, Direccion = ?,Telefono = ? WHERE id_Cliente = ?";
+    
     
     try (Connection c = ConexionBD.getConnection();
          PreparedStatement stmt = c.prepareStatement(sql)) {

@@ -13,18 +13,20 @@ import java.util.List;
 public class Compra {
 
     private int id_compra;
-    private int id_Proveedor;
+private int id_Proveedor;
     private Date Fe_compra;
     private float totalCompra;
+    private List<DetalleCompra> detalles;
 
     public Compra() {
     }
 
-    public Compra(int id_compra, int id_Proveedor, Date Fe_compra, float totalCompra) {
+    public Compra(int id_compra, int id_Proveedor, Date Fe_compra, float totalCompra, List<DetalleCompra> detalles) {
         this.id_compra = id_compra;
         this.id_Proveedor = id_Proveedor;
         this.Fe_compra = Fe_compra;
         this.totalCompra = totalCompra;
+        this.detalles = detalles;
     }
 
     public int getId_compra() {
@@ -59,5 +61,12 @@ public class Compra {
         this.totalCompra = totalCompra;
     }
 
-    
+    public List<DetalleCompra> getDetalles() {
+        return detalles;
+    }
+
+    public void setDetalles(List<DetalleCompra> detalles) {
+        this.detalles = detalles;
+    }
+
 }

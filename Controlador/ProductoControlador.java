@@ -57,6 +57,15 @@ public class ProductoControlador {
             return null;
         }
     }
+     public Producto obtenerProductoPorId(int idProducto) {
+        try {
+            return DAOproducto.obtenerProductoPorId(idProducto);
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Error al obtener el producto: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            return null;
+        }
+    }
+    
     // Método para actualizar un producto existente
     public void actualizarProducto(int id_producto, String Nombre_prod, String tipo_produ, double Existencia_Prod,
                                      double precio_costo, double precio_venta, Date fecha_caducidad) {

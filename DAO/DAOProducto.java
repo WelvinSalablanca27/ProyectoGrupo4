@@ -58,6 +58,27 @@ public class DAOProducto {
         return producto;
     }
 
+    public Producto obtenerProductoPorId(int idProducto) throws SQLException {
+    String sql = "SELECT * FROM Productos WHERE id_producto = ?";
+    Producto producto = null;
+
+    try (Connection c = ConexionBD.getConnection(); PreparedStatement stmt = c.prepareStatement(sql)) {
+        stmt.setInt(1, idProducto);
+        try (ResultSet rs = stmt.executeQuery()) {
+            if (rs.next()) {
+                producto = new Producto();
+                producto.setId_producto(rs.getInt("id_producto"));
+                producto.setNombre_prod(rs.getString("Nombre_prod"));
+                producto.setTipo_produ(rs.getString("Tipo_produ"));
+                producto.setExistencia_Prod(rs.getFloat("id_categoria"));
+                producto.setPrecio_Costo(rs.getFloat("precio _Costo"));
+                producto.setPrecio_Venta(rs.getFloat("Precio_Venta"));
+                producto.setFecha_caducidad(rs.getDate("Fecha"));
+            }
+        }
+    }
+    return producto;
+}
     public void actualizarProducto(Producto producto) throws SQLException {
         String sql = """
                 UPDATE Producto 

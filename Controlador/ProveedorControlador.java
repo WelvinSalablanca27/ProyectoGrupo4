@@ -42,7 +42,14 @@ public class ProveedorControlador {
             return null;
         }
     }
-
+  public Proveedor obtenerClientePorId(int idCliente) {
+        try {
+            return DAOproveedor.obtenerClientePorId(idCliente);
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Error al obtener el cliente: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            return null;
+        }
+    }
    
     public void actualizarProveedor(int id_Proveedor, String Nombre_Proveedor, String Telefono, String Tipo_distribuidor) {
         try {

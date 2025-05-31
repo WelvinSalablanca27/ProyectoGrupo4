@@ -1,4 +1,3 @@
-
 package Controlador;
 
 import DAO.DAODetalleCompra;
@@ -21,14 +20,15 @@ public class DetalleCompraControlador {
     }
 
     // Método para crear un nuevo detalle de compra
-    public void crearDetalleCompra( int id_compra, int id_Producto, Date Fe_Ingresado, Date Fe_caducidad, int Valor_Compra) {
+    public void crearDetalleCompra(int id_compra, int id_Producto, Date Fe_Ingresado, Date Fe_caducidad, float precio, int cantidad) {
         try {
             DetalleCompra detalle = new DetalleCompra();
             detalle.setId_compra(id_compra);
             detalle.setId_Producto(id_Producto);
             detalle.setFe_Ingresado(Fe_Ingresado);
             detalle.setFe_caducidad(Fe_caducidad);
-            detalle.setValor_Compra(Valor_Compra);
+            detalle.setPrecio(precio);
+            detalle.setCantidad(cantidad);
             detalleCompraDAO.crearDetalleCompra(detalle);
             JOptionPane.showMessageDialog(null, "Detalle de compra creado exitosamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
         } catch (SQLException e) {
@@ -48,7 +48,8 @@ public class DetalleCompraControlador {
 
     // Método para actualizar un detalle de compra existente
     public void actualizarDetalleCompra(int id_DetalleCompra, int id_compra, int id_Producto,
-            Date Fe_Ingresado, Date Fe_caducidad, int Valor_Compra) {
+            Date Fe_Ingresado, Date Fe_caducidad, float precio, int cantidad) 
+         {
         try {
             DetalleCompra detalle = new DetalleCompra();
             detalle.setId_DetalleCompra(id_DetalleCompra);
@@ -56,7 +57,8 @@ public class DetalleCompraControlador {
             detalle.setId_Producto(id_Producto);
             detalle.setFe_Ingresado(Fe_Ingresado);
             detalle.setFe_caducidad(Fe_caducidad);
-            detalle.setValor_Compra(Valor_Compra);
+            detalle.setPrecio(precio);
+            detalle.setCantidad(cantidad);
             detalleCompraDAO.actualizarDetalleCompra(detalle);
             JOptionPane.showMessageDialog(null, "Detalle de compra actualizado exitosamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
         } catch (SQLException e) {
@@ -79,23 +81,25 @@ public class DetalleCompraControlador {
         DetalleCompraControlador controlador = new DetalleCompraControlador();
 
         // Crear un detalle de compra
-        controlador.crearDetalleCompra(1, 1, new Date(), new Date(), 70);
+        controlador.crearDetalleCompra(1, 1, new Date(), new Date(), 70, 10);
 
         // Leer todos los detalles de compra
         List<DetalleCompra> detalles = controlador.obtenerTodosDetallesCompra();
         if (detalles != null) {
             System.out.println("Lista de detalles de compra:");
             for (DetalleCompra det : detalles) {
-            System.out.println("ID: " + det.getId_DetalleCompra()+ 
-                               ", Compra ID: " + det.getId_compra()+ 
-                               ", Fecha_Ingres: " + det.getFe_Ingresado()+ 
-                               ", Fecha_caducidad: " + det.getFe_caducidad() + 
-                               ", Valor_Compra: " + det.getValor_Compra());
+                System.out.println("ID: " + det.getId_DetalleCompra()
+                        + ", Compra ID: " + det.getId_compra()
+                        + ", Fecha_Ingres: " + det.getFe_Ingresado()
+                        + ", Fecha_caducidad: " + det.getFe_caducidad()
+                        + ", Precio: " + det.getPrecio()
+                        +", Cantidad: " + det.getCantidad());
+
             }
         }
 
         // Actualizar un detalle de compra (suponiendo que ID 1 existe)
-        controlador.actualizarDetalleCompra(2, 2, 2, new Date(), new Date(), 150);
+        controlador.actualizarDetalleCompra(2, 2, 2, new Date(), new Date(), 150, 10);
 
         // Eliminar un detalle de compra
         controlador.eliminarDetalleCompra(2);

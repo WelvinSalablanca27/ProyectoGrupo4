@@ -1,10 +1,7 @@
 
 package Entidades;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
+
 import java.util.Date;
-import java.util.List;
 /**
  *
 * @author welvin
@@ -15,18 +12,20 @@ public class DetalleCompra {
   private int id_Producto;
   private Date Fe_Ingresado ;
   private Date Fe_caducidad ;
-  private int Valor_Compra ;
+  private float Precio ;
+  private int cantidad;
 
     public DetalleCompra() {
     }
 
-    public DetalleCompra(int id_DetalleCompra, int id_compra, int id_Producto, Date Fe_Ingresado, Date Fe_caducidad, int Valor_Compra) {
+    public DetalleCompra(int id_DetalleCompra, int id_compra, int id_Producto, Date Fe_Ingresado, Date Fe_caducidad, float Precio, int cantidad) {
         this.id_DetalleCompra = id_DetalleCompra;
         this.id_compra = id_compra;
         this.id_Producto = id_Producto;
         this.Fe_Ingresado = Fe_Ingresado;
         this.Fe_caducidad = Fe_caducidad;
-        this.Valor_Compra = Valor_Compra;
+        this.Precio = Precio;
+        this.cantidad = cantidad;
     }
 
     public int getId_DetalleCompra() {
@@ -69,16 +68,23 @@ public class DetalleCompra {
         this.Fe_caducidad = Fe_caducidad;
     }
 
-    public int getValor_Compra() {
-        return Valor_Compra;
+    public float getPrecio() {
+        return Precio;
     }
 
-    public void setValor_Compra(int Valor_Compra) {
-        this.Valor_Compra = Valor_Compra;
+    public void setPrecio(float Precio) {
+        this.Precio = Precio;
     }
 
-    
-  
+    public int getCantidad() {
+        return cantidad;
+    }
+
+    public void setCantidad(int cantidad) {
+        this.cantidad = cantidad;
+    }
+
+
 }
 
 
